@@ -129,7 +129,10 @@ def mapShrub():
   mask1 = ndvi.lt(0.5)
   mask2 = ndvi.gt(0.25)
 
-  shrub = ndvi.mask(mask1).updateMask(mask2)
+  ndbi = mosaic.normalizedDifference(['B8', 'B11']);
+  mask = ndbi.gt(-0.1)
+
+  shrub = ndvi.mask(mask1).updateMask(mask2).updateMask(mask)
  
   mapId = shrub.getMapId({'min': 0, 'max': 1,'palette':'65f442'})
   
