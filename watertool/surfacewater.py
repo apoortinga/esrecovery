@@ -7,7 +7,29 @@ ee.Initialize(config.EE_CREDENTIALS)
 IMAGE_COLLECTION = ee.ImageCollection('JRC/GSW1_0/MonthlyHistory')
 
 watershed = ee.FeatureCollection("ft:1vTonxuDFs7rBkt02H3ZzFy1SSFsNPhlPlRE15pVr","geometry")
+lulc = ee.Image("users/servirmekong/california/RegionalLC")
 
+pal = '6f6f6f,aec3d4,b1f9ff,111149,287463,152106,c3aa69,9ad2a5,7db087,486f50,387242,115420,cc0013,8dc33b,ffff00,a1843b,cec2a5,674c06,3bc3b2,f4a460,800080'
+
+def showLandCover(mylegend):
+  
+  print "legend", mylegend
+  mymask = ee.Image(0)
+
+  # enable all checked boxes
+  for value in mylegend:
+    print value
+    tempmask = lulc.eq(ee.Number(int(value)))
+    mymask = mymask.add(tempmask)
+
+  
+  print "returning" 	
+  return lulc.updateMask(mymask).getMapId({
+      'min': '0',
+      'max': '20',
+      'palette' : pal
+
+  })	
 
 def WaterMap(startDate,endDate):
 

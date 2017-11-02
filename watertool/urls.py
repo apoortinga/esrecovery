@@ -16,11 +16,8 @@ urlpatterns = [
     url(r'^sitemap\.xml$', sitemap,
         {'sitemaps': {'cmspages': CMSSitemap}}),
     url(r'^MakeWaterMap', 'watertool.settings.MakeWaterMap'),
+    url(r'^showLandCover','watertool.settings.showLandCover'),
     url(r'^showSentinel', 'watertool.settings.showSentinel'),
-    url(r'^mapForest', 'watertool.settings.forestMap'),
-    url(r'^mapSoil', 'watertool.settings.soilMap'),
-    url(r'^mapGrass', 'watertool.settings.grassMap'),
-    url(r'^mapShrub', 'watertool.settings.shrubMap'),
 ]
 
 urlpatterns += i18n_patterns(

@@ -75,10 +75,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+#STATIC_URL = '/static/'
+#MEDIA_URL = '/media/'
+#MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+#STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+
+
+STATIC_ROOT = "/home/apoortinga/static"
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
-STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+MEDIA_ROOT = "/home/apoortinga/media"
+
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'watertool', 'static'),
@@ -226,6 +233,7 @@ THUMBNAIL_PROCESSORS = (
 
 def MakeWaterMap(request):
 
+	print request
 	# get start and end date
 	startDate = request.GET.get('startDate') + '-01-01'
 	endDate = request.GET.get('endDate') + '-01-01'
@@ -249,45 +257,25 @@ def showSentinel(request):
 	
 	return JsonResponse(values)
 
-def forestMap(request):
-	
-	mapid = surfacewater.mapForest()
-	
-	values = {'eeMapId': mapid['mapid'],
-			  'eeToken': mapid['token']
-			}
-	
-	return JsonResponse(values)	
-	
+def showLandCover(request):
 
-def soilMap(request):
+ 	print "entering"
+	print request	
+
+	# get the array with boxes that are checked
+  	mylegend = request.GET.get('lc')
 	
-	mapid = surfacewater.mapSoil()
+	print mylegend
+  	
+	# strip the unicode and put it into an array
+	mylegend = mylegend.encode('ascii','ignore').strip("[").strip("]").split(",")
 	
-	values = {'eeMapId': mapid['mapid'],
-			  'eeToken': mapid['token']
-			}
-	
-	return JsonResponse(values)	
-	
-def grassMap(request):
-	
-	mapid = surfacewater.mapGrass()
-	
-	values = {'eeMapId': mapid['mapid'],
-			  'eeToken': mapid['token']
-			}
-	
-	return JsonResponse(values)		
-	
-	
-def shrubMap(request):
-	
-	mapid = surfacewater.mapShrub()
+	print mylegend
+	mapid = surfacewater.showLandCover(mylegend)
 	
 	values = {'eeMapId': mapid['mapid'],
 			  'eeToken': mapid['token']
 			}
 	
-	return JsonResponse(values)		
-		
+	return JsonResponse(values)
+

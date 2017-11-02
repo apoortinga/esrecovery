@@ -108,3 +108,10 @@ footer {
 #wrapper { position: relative; }
 #over_map { position: absolute; top: 12%; left: 75%; right: 10%; z-index: 99; bottom:10% }
 
+#banner {
+    display: block;
+    margin: 10px auto;
+    height: 100px"
+  }
+}
+
