@@ -84,7 +84,7 @@ USE_TZ = True
 STATIC_ROOT = "/home/apoortinga/static"
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "/home/apoortinga/media"
+MEDIA_ROOT = "/home/ate/temps/sig/esrecovery/media"
 
 
 STATICFILES_DIRS = (
@@ -279,3 +279,34 @@ def showLandCover(request):
 	
 	return JsonResponse(values)
 
+def showWinter(request):
+	
+	mapid = surfacewater.getWinter()
+
+	values = {'eeMapId': mapid['mapid'],
+			  'eeToken': mapid['token']
+			}
+	
+	return JsonResponse(values)
+	
+def showSummer(request):
+	
+	mapid = surfacewater.getSummer()
+
+	values = {'eeMapId': mapid['mapid'],
+			  'eeToken': mapid['token']
+			}
+	
+	return JsonResponse(values)	
+
+	
+def showFire(request):
+	
+	print "enter"
+	mapid = surfacewater.getFire()
+
+	values = {'eeMapId': mapid['mapid'],
+			  'eeToken': mapid['token']
+			}
+	print values
+	return JsonResponse(values)	

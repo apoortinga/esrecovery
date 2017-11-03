@@ -18,6 +18,9 @@ urlpatterns = [
     url(r'^MakeWaterMap', 'watertool.settings.MakeWaterMap'),
     url(r'^showLandCover','watertool.settings.showLandCover'),
     url(r'^showSentinel', 'watertool.settings.showSentinel'),
+    url(r'^showSummer', 'watertool.settings.showSummer'),
+    url(r'^showWinter', 'watertool.settings.showWinter'),
+    url(r'^showFire', 'watertool.settings.showFire'),
 ]
 
 urlpatterns += i18n_patterns(

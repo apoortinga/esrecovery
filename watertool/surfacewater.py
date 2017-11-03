@@ -85,77 +85,31 @@ def getSentinel():
   
   return mapId
 
-def mapForest():
 
-  img0 = ee.Image("COPERNICUS/S2/20160823T184922_20160823T235521_T10TGK");
-  img1 = ee.Image("COPERNICUS/S2/20160803T190133_20160803T235100_T10TFK");
-  img2 = ee.Image("COPERNICUS/S2/20160714T190130_20160714T235020_T10TFL");
+def getSummer():
 
-  mosaic = ee.ImageCollection([img0,img1,img2]).mosaic().clip(watershed);
-  
-  ndvi = mosaic.normalizedDifference(['B8', 'B4']);
-  
-  mask = ndvi.gt(0.5);
-  forest = ndvi.mask(mask); 
-  
-  mapId = forest.getMapId({'min': 0, 'max': 1,'palette':'darkgreen'})
+  summer = ee.Image("users/servirmekong/california/summer").clip(watershed)
+     
+  mapId = summer.getMapId({'min': 0, 'max': 2048,'bands':'red,green,blue'})
   
   return mapId
 
-def mapSoil():
+  
+def getWinter():
 
-  img0 = ee.Image("COPERNICUS/S2/20160823T184922_20160823T235521_T10TGK");
-  img1 = ee.Image("COPERNICUS/S2/20160803T190133_20160803T235100_T10TFK");
-  img2 = ee.Image("COPERNICUS/S2/20160714T190130_20160714T235020_T10TFL");
-  
-  mosaic = ee.ImageCollection([img0,img1,img2]).mosaic().clip(watershed);
-  
-  ndbi = mosaic.normalizedDifference(['B8', 'B11']);
-  mask = ndbi.lt(-0.1)
-  soil = ndbi.mask(mask)
- 
-  mapId = soil.getMapId({'min': 0, 'max': 1,'palette':'red'})
-  
-  print mapId
-  
-  return mapId 
-
-def mapGrass():
-
-
-  img0 = ee.Image("COPERNICUS/S2/20160823T184922_20160823T235521_T10TGK");
-  img1 = ee.Image("COPERNICUS/S2/20160803T190133_20160803T235100_T10TFK");
-  img2 = ee.Image("COPERNICUS/S2/20160714T190130_20160714T235020_T10TFL");
-  
-  mosaic = ee.ImageCollection([img0,img1,img2]).mosaic().clip(watershed);
-  
-  ndvi = mosaic.normalizedDifference(['B8', 'B4']);
-  mask1 = ndvi.lt(0.25);
-  mask2 = ndvi.gt(0.0);
-  grass = ndvi.mask(mask1).updateMask(mask2);
- 
-  mapId = grass.getMapId({'min': 0, 'max': 1,'palette':'yellow'})
+  summer = ee.Image("users/servirmekong/california/winter").clip(watershed)
+       
+  mapId = summer.getMapId({'min': 0, 'max': 2048,'bands':'red,green,blue'})
   
   return mapId  
-  
-def mapShrub():
 
-  img0 = ee.Image("COPERNICUS/S2/20160823T184922_20160823T235521_T10TGK");
-  img1 = ee.Image("COPERNICUS/S2/20160803T190133_20160803T235100_T10TFK");
-  img2 = ee.Image("COPERNICUS/S2/20160714T190130_20160714T235020_T10TFL");
-  
-  mosaic = ee.ImageCollection([img0,img1,img2]).mosaic().clip(watershed);
-  
-  ndvi = mosaic.normalizedDifference(['B8', 'B4']);
-  
-  mask1 = ndvi.lt(0.5)
-  mask2 = ndvi.gt(0.25)
 
-  ndbi = mosaic.normalizedDifference(['B8', 'B11']);
-  mask = ndbi.gt(-0.1)
-
-  shrub = ndvi.mask(mask1).updateMask(mask2).updateMask(mask)
- 
-  mapId = shrub.getMapId({'min': 0, 'max': 1,'palette':'65f442'})
-  
-  return mapId  
+def getFire():
+	
+	fire = ee.Image("users/servirmekong/californiaFire").clip(watershed)
+	
+	print fire
+	mapId = fire.getMapId({'min': 70, 'max': 100,'palette':'yellow,orange,red'})
+	
+	print mapId
+	return mapId  

@@ -27,8 +27,9 @@ var boot = function(eeMapId, eeToken) {
 	document.getElementById('updateWaterMap').addEventListener("click", makeWaterMap);
 	document.getElementById('updateRecent').addEventListener("click", showSatellite);
 	document.getElementById('clear').addEventListener("click", clearMap);
-	//document.getElementById('updateWinter').addEventListener("click", showWinterImage);
+	document.getElementById('updateWinter').addEventListener("click", showWinterImage);
 	document.getElementById('updateSummer').addEventListener("click", showSummerImage);
+	document.getElementById('updateFire').addEventListener("click", showFireImage);
 
 	// setup even listener for land cover map
        $('.lcbox').change(getLULC);
@@ -124,33 +125,10 @@ var getLULC = function() {
     });	
 }    
 
+var showSummerImage = function() {
 
-
-var makeForest = function(){
-	console.log("enabled");
-
-
-
-
-$.ajax({
-      url: "/mapForest",
-      dataType: "json",
-      success: function (data) {
-		 console.log(data);
-		 var mapType = getEeMapType(data.eeMapId, data.eeToken);
-		 map.overlayMapTypes.push(mapType);
-      },
-      error: function (data) {
-        alert("An error occured! Please refresh the page.");
-      }
-    });	
-}	
-
-var makeSoil = function(){
-
-	console.log("entering")
 	$.ajax({
-      url: "/mapSoil",
+      url: "/showSummer",
       dataType: "json",
       success: function (data) {
 		 console.log(data);
@@ -160,14 +138,31 @@ var makeSoil = function(){
       error: function (data) {
         alert("An error occured! Please refresh the page.");
       }
-    });	
+    });
+}
+
+var showWinterImage = function() {
+
+	$.ajax({
+      url: "/showWinter",
+      dataType: "json",
+      success: function (data) {
+		 console.log(data);
+		 var mapType = getEeMapType(data.eeMapId, data.eeToken);
+		 map.overlayMapTypes.push(mapType);
+      },
+      error: function (data) {
+        alert("An error occured! Please refresh the page.");
+      }
+    });
 }	
+
+var showFireImage = function() {
+
+	console.log("fire")
 	
-var makeGrass = function(){
-
-	console.log("entering")
 	$.ajax({
-      url: "/mapGrass",
+      url: "/showFire",
       dataType: "json",
       success: function (data) {
 		 console.log(data);
@@ -177,27 +172,8 @@ var makeGrass = function(){
       error: function (data) {
         alert("An error occured! Please refresh the page.");
       }
-    });	
-}	
-
-var makeShrub = function(){
-
-	console.log("entering")
-	$.ajax({
-      url: "/mapShrub",
-      dataType: "json",
-      success: function (data) {
-		 console.log(data);
-		 var mapType = getEeMapType(data.eeMapId, data.eeToken);
-		 map.overlayMapTypes.push(mapType);
-      },
-      error: function (data) {
-        alert("An error occured! Please refresh the page.");
-      }
-    });	
-}	
-		
-	
+    });
+}
 
 // ---------------------------------------------------------------------------------- //
 // The application
@@ -286,18 +262,11 @@ var setLayerOpacity = function(value) {
 * Clear polygons from the map when changing from country to province
 **/
 var clearMap = function () {
-
-	console.log("clear map");
+	
 	map.overlayMapTypes.clear();
 };
 
-var showWinterImage = function (){
-	print("clicked")
-}
 
-var showSummerImage = function (){
-	print("clicked")
-}
 
 // ---------------------------------------------------------------------------------- //
 // Static helpers and constants
