@@ -9,7 +9,7 @@ var DataArr = [];
 var all_overlays = [];
 var map;
 var currentShape; 
-
+var layer;
 
  /**
  * Starts the Surface Water Tool application. The main entry point for the app.
@@ -30,9 +30,12 @@ var boot = function(eeMapId, eeToken) {
 	document.getElementById('updateWinter').addEventListener("click", showWinterImage);
 	document.getElementById('updateSummer').addEventListener("click", showSummerImage);
 	document.getElementById('updateFire').addEventListener("click", showFireImage);
+	document.getElementById('rxburn').addEventListener("click", rxburn);
+	document.getElementById('nonFire').addEventListener("click", nonFire);
+	document.getElementById('FireP').addEventListener("click", FireP);
 
 	// setup even listener for land cover map
-       $('.lcbox').change(getLULC);
+    $('.lcbox').change(getLULC);
 
 	
 };
@@ -66,6 +69,7 @@ var makeWaterMap = function() {
         alert("An error occured! Please refresh the page.");
       }
     });	
+
 }    
 
 
@@ -91,11 +95,10 @@ var showSatellite = function() {
 
 
 var getLULC = function() {
-	
-	console.log("test1")
-	mapCounter = 1;
-	//clearMap()
 
+	mapCounter = 1;
+
+	rxburn()
 	legend = []
 	$('.lcbox').each(function(){
 		if (this.checked){
@@ -123,6 +126,7 @@ var getLULC = function() {
         alert("An error occured! Please refresh the page.");
       }
     });	
+
 }    
 
 var showSummerImage = function() {
@@ -173,6 +177,50 @@ var showFireImage = function() {
         alert("An error occured! Please refresh the page.");
       }
     });
+}
+
+
+var rxburn = function(){
+	if (layer)
+		{layer.setMap(null)};
+  layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'OBJECTID',
+      from: '12A2sUHRyATTbstj0dZL7nkrHbxR_ncU-MFm6bnNP',
+      //where: 'ridership > 5000'
+    }
+  });
+  layer.setMap(map);
+}
+
+var nonFire = function(){
+
+	if (layer)
+		{layer.setMap(null)};
+
+  layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'OBJECTID',
+      from: '1ASRT1Bgm0Fi3L6PiUwVwojdflzzyFgl5sM5JkBdA',
+      //where: 'ridership > 5000'
+    }
+  });
+  layer.setMap(map);
+}
+
+var FireP = function(){
+	
+	if (layer)
+		{layer.setMap(null)};
+
+  layer = new google.maps.FusionTablesLayer({
+    query: {
+      select: 'OBJECTID',
+      from: '1pOAf1RltYbB3kLjzc4Rns3N1ug_AtLz6gBcPqfed',
+      //where: 'ridership > 5000'
+    }
+  });
+  layer.setMap(map);
 }
 
 // ---------------------------------------------------------------------------------- //
@@ -264,6 +312,10 @@ var setLayerOpacity = function(value) {
 var clearMap = function () {
 	
 	map.overlayMapTypes.clear();
+	
+	if (layer)
+		{layer.setMap(null)};
+
 };
 
 
